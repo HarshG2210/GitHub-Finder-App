@@ -12,6 +12,12 @@ export default function GithubReducer(state, action) {
         loading: true,
       };
     }
+    case "CLEAR_USERS": {
+      return {
+        ...state,
+        user: [],
+      };
+    }
     default:
       return state;
   }
