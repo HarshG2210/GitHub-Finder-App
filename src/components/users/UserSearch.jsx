@@ -4,7 +4,6 @@ import GithubContext from "../context/github/GithubContext";
 
 export default function UserSearch() {
   const [text, setText] = useState("");
-  // console.log("text123", text);
   const { user, searchUsers, clearUsers } = useContext(GithubContext);
   const handleSearch = (e) => {
     setText(e.target.value);
@@ -15,7 +14,6 @@ export default function UserSearch() {
       alert("please enter name");
     } else {
       searchUsers(text);
-      // console.log("text123", text);
       setText("");
     }
   };
