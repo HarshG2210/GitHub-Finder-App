@@ -3,6 +3,12 @@ export default function GithubReducer(state, action) {
     case "GET_USERS":
       return {
         ...state,
+        users: action.payload,
+        loading: false,
+      };
+    case "GET_USER":
+      return {
+        ...state,
         user: action.payload,
         loading: false,
       };
@@ -15,7 +21,7 @@ export default function GithubReducer(state, action) {
     case "CLEAR_USERS": {
       return {
         ...state,
-        user: [],
+        users: [],
       };
     }
     default:

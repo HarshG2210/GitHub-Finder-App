@@ -1,17 +1,19 @@
 import { useContext, useState } from "react";
 
+import AlertContext from "../context/alert/AlertContext";
 import GithubContext from "../context/github/GithubContext";
 
 export default function UserSearch() {
   const [text, setText] = useState("");
-  const { user, searchUsers, clearUsers } = useContext(GithubContext);
+  const { users, searchUsers, clearUsers } = useContext(GithubContext);
+  const { setAlert } = useContext(AlertContext);
   const handleSearch = (e) => {
     setText(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text === "") {
-      alert("please enter name");
+      setAlert("please enter something", "error");
     } else {
       searchUsers(text);
       setText("");
@@ -38,7 +40,7 @@ export default function UserSearch() {
           </div>
         </form>
       </div>
-      {user?.length > 0 && (
+      {users?.length > 0 && (
         <div>
           <button onClick={clearUsers} className="btn btn-ghost btn-lg">
             Clear
