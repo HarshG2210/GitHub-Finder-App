@@ -1,5 +1,9 @@
 import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import {
+  getUser,
+  getUserRepos,
+} from "../components/context/github/GithubAction";
 import { useContext, useEffect } from "react";
 
 import GithubContext from "../components/context/github/GithubContext";
@@ -7,13 +11,31 @@ import RepoList from "../components/repos/RepoList";
 import Spinner from "../components/layout/Spinner";
 
 export default function User() {
-  const { user, getUser, loading, getUserRepos, repos } =
-    useContext(GithubContext);
+  const { user, loading, repos, dispatch } = useContext(GithubContext);
   const params = useParams();
   useEffect(() => {
-    getUser(params.login);
-    getUserRepos(params.login);
-  }, []);
+    dispatch({
+      type: "SET_LOADING",
+    });
+    const getUserData = async () => {
+      // const userData = await getUserAndRepos(params.login);
+      // dispatch({
+      //   type: "GET_USER_AND_REPOS",
+      //   payload: userData,
+      // });
+      const userData = await getUser(params.login);
+      dispatch({
+        type: "GET_USER",
+        payload: userData,
+      });
+      const userReposData = await getUserRepos(params.login);
+      dispatch({
+        type: "GET_REPOS",
+        payload: userReposData,
+      });
+    };
+    getUserData();
+  }, [dispatch, params.login]);
 
   const {
     name,
@@ -79,7 +101,7 @@ export default function User() {
                 </a>
               </div>
             </div>
-            <div className="w-fill rounded-lg shadow-md bg-base-100 stats">
+            <div className="w-full rounded-lg shadow-md bg-base-100 stats">
               {location && (
                 <div className="stat">
                   <div className="stat-title text-md">Location</div>
