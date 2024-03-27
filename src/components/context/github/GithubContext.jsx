@@ -94,7 +94,7 @@ export const GithubProvider = ({ children }) => {
     } else {
       const data = await response.json();
 
-      console.log("data", data);
+      // console.log("data", data);
       dispatch({
         type: "GET_REPOS",
         payload: data,
